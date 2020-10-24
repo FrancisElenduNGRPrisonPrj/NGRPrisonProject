@@ -22,7 +22,9 @@ namespace NGRPrisonAPI.Helper
 
             CreateMap<Inmate, InmateDto>()
                 .ForMember(dest => dest.StateOfOrigin, opt => opt.
-                MapFrom(src => src.State.StateName));
+                MapFrom(src => src.State.StateName))
+                .ForMember(dest => dest.PrisonName, opt => opt.
+                MapFrom(src => src.Prison.PrisonName));
         }
 
     }

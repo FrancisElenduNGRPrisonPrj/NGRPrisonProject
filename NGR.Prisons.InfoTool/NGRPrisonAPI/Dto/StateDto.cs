@@ -7,9 +7,7 @@ namespace NGRPrisonAPI.Dto
     {
         public int Id { get; set; }
         public string StateName { get; set; }
-        [NoMap]
         public ICollection<PrisonDto> Prisons { get; set; }
-        [NoMap]
         public ICollection<InmateDto> Inmates { get; set; }
     }
 }

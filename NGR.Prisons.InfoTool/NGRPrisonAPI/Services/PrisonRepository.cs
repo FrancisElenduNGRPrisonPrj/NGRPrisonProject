@@ -34,7 +34,10 @@ namespace NGRPrisonAPI.Services
         public async Task<Inmate> GetInmate(int inmateId)
         {
             _logger.LogInformation($"Getting inmates records for id {inmateId}.");
-            var query = _context.Inmates.Where(x => x.Id == inmateId);
+
+            var query = _context.Inmates.Where(x => x.Id == inmateId)
+                .Include(x=>x.State)
+                .ThenInclude(x => x.Prisons);
 
             return await query.FirstOrDefaultAsync();
         }
@@ -42,7 +45,9 @@ namespace NGRPrisonAPI.Services
         public async Task<Inmate[]> GetInmatesByPrison(int prisonId)
         {
             _logger.LogInformation($"Getting inmates records for prison id {prisonId}.");
-            var query = _context.Inmates.Where(x => x.Prison.Id == prisonId);
+            var query = _context.Inmates.Where(x => x.Prison.Id == prisonId)
+                .Include(x => x.State)
+                .ThenInclude(x=>x.Prisons);
 
             return await query.ToArrayAsync();
         }
@@ -50,7 +55,10 @@ namespace NGRPrisonAPI.Services
         public async Task<Inmate[]> GetInmatesByState(int stateId)
         {
             _logger.LogInformation($"Getting inmates records for state id {stateId}.");
-            var query = _context.Inmates.Where(x => x.State.Id == stateId);
+
+            var query = _context.Inmates.Where(x => x.State.Id == stateId)
+                .Include(x => x.State)
+                .ThenInclude(x => x.Prisons);
 
             return await query.ToArrayAsync();
         }
